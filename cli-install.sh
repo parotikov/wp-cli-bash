@@ -68,6 +68,7 @@ plugins_array=(
 	"shortcode-exec-php" 
 	"w3-total-cache"
 	"siteorigin-panels"
+	"adminer"
 	);
 
 for i in "${plugins_array[@]}"
