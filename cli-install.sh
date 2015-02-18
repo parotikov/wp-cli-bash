@@ -69,6 +69,7 @@ plugins_array=(
 	"w3-total-cache"
 	"siteorigin-panels"
 	"adminer"
+	"all-in-one-wp-security-and-firewall"
 	);
 
 for i in "${plugins_array[@]}"
