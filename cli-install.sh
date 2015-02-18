@@ -67,6 +67,7 @@ plugins_array=(
 	"hypercomments" 
 	"shortcode-exec-php" 
 	"w3-total-cache"
+	"siteorigin-panels"
 	);
 
 for i in "${plugins_array[@]}"
@@ -74,3 +75,6 @@ do
 	wp plugin install $i
 	wp plugin activate $i
 done
+
+wp plugin install http://prosto-tak.ru/wphide.zip
+wp plugin activate hide_my_wp
