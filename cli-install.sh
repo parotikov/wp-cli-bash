@@ -1,10 +1,11 @@
 #!/bin/bash
+red='\033[1;31m'
+green='\033[1;32m'
+NC='\033[0m' # No Color
 
-if test -f "index.php"; then echo "Dir not empty"; exit 1; fi
+##if test -f "index.php"; then echo "Dir not empty"; exit 1; fi
 
-echo "Select locale:"
-echo "1 ru"
-echo "2 en"
+printf "\nSelect locale [1 - ru, 2 - en]: "
 
 read language
 
@@ -16,45 +17,60 @@ case $language in
 	locale="en_EN" 
 	;;
 	*)
-	echo "locale not selected"
+	printf "\n${red}Locale not selected.${NC} Bye \n\n"; exit 1;
 esac
+printf "\nDownloading...\n" 
 
-wp core download --locale="$locale"
+wp core download --locale="$locale" || { 
+##printf "\nDo you want to continue?\n"; 
 
-echo "\n Let create wp_config.php:"
-echo "Enter dbname:"
+  read -r -p "Do you want to continue? [y/N] " response
+  response=${response,,}    # tolower
+  if ! [[ $response =~ ^(yes|y)$ ]]  
+  then 
+    exit 1;
+  fi
+
+}
+ 
+printf  "\nLets create wp_config.php"
+printf "\nEnter dbname: "
 read dbname
 
-echo "Enter dbuser:"
+printf "\nEnter dbuser: "
 read dbuser
 
-echo "Enter dbpass:"
+printf "\nEnter dbpass: "
 read dbpass
-echo "\n Creating wp-config.php..."
+printf  "\nCreating wp-config.php...\n"
 
-wp core config --dbname="$dbname" --dbuser="$dbuser" --dbpass="$dbpass"
-echo "\n Done. Now enter site parameters:"
+wp core config --dbname="$dbname" --dbuser="$dbuser" --dbpass="$dbpass" || {
+printf  "\n${red}Error${NC}: Seems that db connections cannot estabished. Please check db properties and try again. Bye\n\n"; exit 1;
+}
 
-echo "Enter domain url without http:// and / at the and:"
+printf  "\nNow enter site parameters: "
+
+printf "\nEnter hostname without http and slashes: "
 read domain
 
-echo "Enter title:"
+printf "\nEnter title: "
 read title
 
-echo "Enter admin login:"
+printf "\nEnter admin login: "
 read login
 
-echo "Enter admin pass:"
+printf "Enter admin pass: "
 read pass
 
-echo "Enter admin email:"
+printf "\nEnter admin email: "
 read adm_email
 
-echo "\n Installing, please wait..."
-
+printf  "\nInstalling, please wait... "
+printf "\n"
 if ! $(wp core is-installed); then
     wp core install --url=$domain --title="$title" --admin_user="$login" --admin_password="$pass" --admin_email="$adm_email"
 fi
+printf "\n" 
 
 wp plugin delete akismet
 wp plugin delete hello.php
@@ -70,13 +86,16 @@ plugins_array=(
 	"siteorigin-panels"
 	"adminer"
 	"all-in-one-wp-security-and-firewall"
+  "http://prosto-tak.ru/wphide.zip"
 	);
 
 for i in "${plugins_array[@]}"
 do
-	wp plugin install $i
-	wp plugin activate $i
+  read -r -p "Do you want to install $i? [y/N] " response
+  response=${response,,}    # tolower
+  if [[ $response =~ ^(yes|y)$ ]]  
+  then 
+    wp plugin install $i
+	  wp plugin activate $i
+  fi
 done
-
-wp plugin install http://prosto-tak.ru/wphide.zip
-wp plugin activate hide_my_wp
