@@ -7,6 +7,7 @@ red='\033[1;31m'
 green='\033[1;32m'        
 blue='\033[1;34m'        
 NC='\033[0m' # No Color   
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 cat << EOF
 +--------------------------------------------+
