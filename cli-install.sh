@@ -29,7 +29,7 @@ EOF
 
 printf "\n${bold}Select locale${normal} [1 - ru, 2 - en]: "
 
-read -e language
+read language
 
 case $language in
 	1)
@@ -46,7 +46,7 @@ printf "\n${bold}Downloading${normal}...\n"
 wp core download --locale="$locale" || { 
 ##printf "\nDo you want to continue?\n"; 
 
-  read -r -p -e "${bold}Do you want to continue? ${normal}[y/N] " response
+  read -r -p "${bold}Do you want to continue? ${normal}[y/N] " response
   response=${response,,}    # tolower
   if ! [[ $response =~ ^(yes|y)$ ]]  
   then 
@@ -123,7 +123,7 @@ printf "\n"
 wp plugin delete akismet
 wp plugin delete hello.php
 
-read -r -p -e "${bold}Do you want install some useful plugins? ${normal}[y/N] " response
+read -r -p "${bold}Do you want install some useful plugins? ${normal}[y/N] " response
 response=${response,,}    # tolower
 if [[ $response =~ ^(yes|y)$ ]]  
 then 
@@ -143,7 +143,7 @@ then
 
   for i in "${plugins_array[@]}"
   do
-    read -r -p -e "${bold}Do you want to install $i?${normal} [y/N] " response
+    read -r -p "${bold}Do you want to install $i?${normal} [y/N] " response
     response=${response,,}    # tolower
     if [[ $response =~ ^(yes|y)$ ]]  
     then 
@@ -154,7 +154,7 @@ then
 fi
 
 printf "\n${green}Done!${NC}\n"
-read -r -p -e "${bold}Do you wanna delete this installation script?${normal} [y/N] " response
+read -r -p  "${bold}Do you wanna delete this installation script?${normal} [y/N] " response
   response=${response,,}    # tolower 
   printf "\n${bold}Bye.${normal}\n\n"
   if [[ $response =~ ^(yes|y)$ ]]  
