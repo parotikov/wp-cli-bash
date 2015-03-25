@@ -12,7 +12,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cat << EOF
 +--------------------------------------------+
 |                                            |
-|       Wordpress CLI Installer 1.01         |
+|       Wordpress CLI Installer 1.02         |
 |                                            |
 |  https://github.com/parotikov/wp-cli-bash  |
 |                                            |
@@ -58,7 +58,7 @@ wp core download --locale="$locale" || {
 
 if test -f "wp-config.php"; 
 then 
-  read -r -p "${bold}Seems that wp-config.php already created. What we gonna do?${normal} [${bold}O${normal}verwrite/${bold}U${normal}se/${bold}A${normal}bort] " response
+  read -r -p "${bold}Seems that wp-config.php already created. What we gonna do?${normal} [${bold}o${normal}verwrite/${bold}U${normal}SE/${bold}a${normal}bort] " response
     response=${response,,}    # tolower
     if [[ $response =~ ^(overwrite|o)$ ]]  
     then 
@@ -70,13 +70,9 @@ then
       printf "\n${bold}Aborting...${normal} Bye\n\n"
       exit 1;        
     fi 
-fi
-
-
-
-if ! [[ $response =~ ^(use|u|'')$ ]]   
-then  
-  printf  "\n${bold}Lets create wp_config.php${normal}"
+else
+  printf  "\nSeems that wp-config.php does not exist"
+  printf  "\n${bold}Lets create it${normal}"
   printf "\nEnter dbname: "
   read dbname
 
@@ -99,6 +95,7 @@ then
   grep DB_USER wp-config.php
   grep DB_PASS wp-config.php
 fi  
+
 printf  "\n${bold}Now enter site parameters${normal}"
 
 printf "\nEnter hostname without http and slashes: "
@@ -126,30 +123,35 @@ printf "\n"
 wp plugin delete akismet
 wp plugin delete hello.php
 
-plugins_array=(
-	"contact-form-7" 
-	"cyr3lat" 
-	"all-in-one-seo-pack" 
-	"google-sitemap-generator" 
-	"hypercomments" 
-	"shortcode-exec-php" 
-	"w3-total-cache"
-	"siteorigin-panels"
-	"adminer"
-	"all-in-one-wp-security-and-firewall"
-  "http://prosto-tak.ru/wphide.zip"
-	);
+read -r -p "${bold}Do you want install some useful plugins? ${normal}[y/N] " response
+response=${response,,}    # tolower
+if [[ $response =~ ^(yes|y)$ ]]  
+then 
+  plugins_array=(
+    "contact-form-7" 
+    "cyr3lat" 
+    "all-in-one-seo-pack" 
+    "google-sitemap-generator" 
+    "hypercomments" 
+    "shortcode-exec-php" 
+    "w3-total-cache"
+    "siteorigin-panels"
+    "adminer"
+    "all-in-one-wp-security-and-firewall"
+    "http://prosto-tak.ru/wphide.zip"
+    );
 
-for i in "${plugins_array[@]}"
-do
-  read -r -p "${bold}Do you want to install $i?${normal} [y/N] " response
-  response=${response,,}    # tolower
-  if [[ $response =~ ^(yes|y)$ ]]  
-  then 
-    wp plugin install $i
-	  wp plugin activate $i
-  fi
-done
+  for i in "${plugins_array[@]}"
+  do
+    read -r -p "${bold}Do you want to install $i?${normal} [y/N] " response
+    response=${response,,}    # tolower
+    if [[ $response =~ ^(yes|y)$ ]]  
+    then 
+      wp plugin install $i
+      wp plugin activate $i
+    fi
+  done
+fi
 
 printf "\n${green}Done!${NC}\n"
 read -r -p "${bold}Do you wanna delete this installation script?${normal} [y/N] " response
