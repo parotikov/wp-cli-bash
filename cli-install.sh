@@ -29,7 +29,7 @@ EOF
 
 printf "\n${bold}Select locale${normal} [1 - ru, 2 - en]: "
 
-read language
+read -e language
 
 case $language in
 	1)
@@ -46,7 +46,7 @@ printf "\n${bold}Downloading${normal}...\n"
 wp core download --locale="$locale" || { 
 ##printf "\nDo you want to continue?\n"; 
 
-  read -r -p "${bold}Do you want to continue? ${normal}[y/N] " response
+  read -r -p -e "${bold}Do you want to continue? ${normal}[y/N] " response
   response=${response,,}    # tolower
   if ! [[ $response =~ ^(yes|y)$ ]]  
   then 
@@ -74,13 +74,13 @@ else
   printf  "\nSeems that wp-config.php does not exist"
   printf  "\n${bold}Lets create it${normal}"
   printf "\nEnter dbname: "
-  read dbname
+  read -e dbname
 
   printf "\nEnter dbuser: "
-  read dbuser
+  read -e dbuser
 
   printf "\nEnter dbpass: "
-  read dbpass
+  read -e dbpass
   printf  "\n${bold}Creating wp-config.php...${normal}\n"
 
   wp core config --dbname="$dbname" --dbuser="$dbuser" --dbpass="$dbpass" || {
@@ -99,19 +99,19 @@ fi
 printf  "\n${bold}Now enter site parameters${normal}"
 
 printf "\nEnter hostname without http and slashes: "
-read domain
+read -e domain
 
 printf "\nEnter title: "
-read title
+read -e title
 
 printf "\nEnter admin login: "
-read login
+read -e login
 
 printf "Enter admin pass: "
-read pass
+read -e pass
 
 printf "\nEnter admin email: "
-read adm_email
+read -e adm_email
 
 printf  "\n${bold}Installing, please wait...${normal} "
 printf "\n"
@@ -123,7 +123,7 @@ printf "\n"
 wp plugin delete akismet
 wp plugin delete hello.php
 
-read -r -p "${bold}Do you want install some useful plugins? ${normal}[y/N] " response
+read -r -p -e "${bold}Do you want install some useful plugins? ${normal}[y/N] " response
 response=${response,,}    # tolower
 if [[ $response =~ ^(yes|y)$ ]]  
 then 
@@ -143,7 +143,7 @@ then
 
   for i in "${plugins_array[@]}"
   do
-    read -r -p "${bold}Do you want to install $i?${normal} [y/N] " response
+    read -r -p -e "${bold}Do you want to install $i?${normal} [y/N] " response
     response=${response,,}    # tolower
     if [[ $response =~ ^(yes|y)$ ]]  
     then 
@@ -154,7 +154,7 @@ then
 fi
 
 printf "\n${green}Done!${NC}\n"
-read -r -p "${bold}Do you wanna delete this installation script?${normal} [y/N] " response
+read -r -p -e "${bold}Do you wanna delete this installation script?${normal} [y/N] " response
   response=${response,,}    # tolower 
   printf "\n${bold}Bye.${normal}\n\n"
   if [[ $response =~ ^(yes|y)$ ]]  
