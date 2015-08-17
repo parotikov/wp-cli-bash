@@ -161,3 +161,5 @@ read -r -p  "${bold}Do you wanna delete this installation script?${normal} [y/N]
   then 
     rm $0 
   fi
+rm license.txt
+rm readme.html
