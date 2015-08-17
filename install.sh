@@ -159,5 +159,5 @@ read -r -p  "${bold}Do you wanna delete this installation script?${normal} [y/N]
   printf "\n${bold}Bye.${normal}\n\n"
   if [[ $response =~ ^(yes|y)$ ]]  
   then 
-    rm cli-install.sh 
+    rm $0 
   fi
