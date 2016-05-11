@@ -131,6 +131,7 @@ then
     "contact-form-7" 
     "cyr3lat" 
     "all-in-one-seo-pack" 
+    "pods"
     "google-sitemap-generator" 
     "hypercomments" 
     "shortcode-exec-php" 
