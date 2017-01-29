@@ -36,7 +36,7 @@ case $language in
 	locale="ru_RU"
 	;;
 	2)
-	locale="en_EN" 
+	locale="en_US" 
 	;;
 	*)
 	printf "\n${red}Locale not selected.${NC} Bye \n\n"; exit 1;
@@ -149,7 +149,7 @@ then
     if [[ $response =~ ^(yes|y)$ ]]  
     then 
       wp plugin install $i
-      wp plugin activate $i
+      # wp plugin activate $i
     fi
   done
 fi
