@@ -8,7 +8,9 @@ green='\033[1;32m'
 blue='\033[1;34m'        
 NC='\033[0m' # No Color   
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
+DOMAIN_DIR=$( basename $(dirname $PWD) )
+ADMIN_USER=nik
+ADMIN_EMAIL=nik.parotikov@gmail.com
 cat << EOF
 +--------------------------------------------+
 |                                            |
@@ -99,20 +101,35 @@ fi
 
 printf  "\n${bold}Now enter site parameters${normal}"
 
-printf "\nEnter hostname without http and slashes: "
+printf "\nEnter hostname without http and slashes: ($DOMAIN_DIR) "
 read -e domain
+if [ -z "$domain" ]; then
+    domain=$DOMAIN_DIR
+fi
+
+printf "\ndomain set to $domain"
 
 printf "\nEnter title: "
 read -e title
 
-printf "\nEnter admin login: "
+printf "\nEnter admin login ($ADMIN_USER): "
 read -e login
+if [ -z "$login" ]; then
+    login=$ADMIN_USER
+    printf "\nlogin set to $login"
+fi
+    
 
-printf "Enter admin pass: "
+printf "\nEnter admin pass: "
 read -e pass
 
-printf "\nEnter admin email: "
+printf "\nEnter admin email ($ADMIN_EMAIL): "
 read -e adm_email
+if [ -z "$adm_email" ]; then
+    adm_email=$ADMIN_EMAIL
+    printf "\nemail set to $adm_email"
+fi
+    
 
 printf  "\n${bold}Installing, please wait...${normal} "
 printf "\n"
