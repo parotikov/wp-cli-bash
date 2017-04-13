@@ -27,7 +27,7 @@ EOF
 
 ##if test -f "index.php"; then echo "Dir not empty"; exit 1; fi
 
-printf "\n${bold}Select locale${normal} [1 - ru, 2 - en]: "
+printf "\n${bold}Select locale${normal} [1 - RU, 2 - en]: "
 
 read language
 
@@ -39,7 +39,8 @@ case $language in
 	locale="en_US" 
 	;;
 	*)
-	printf "\n${red}Locale not selected.${NC} Bye \n\n"; exit 1;
+	#printf "\n${red}Locale not selected.${NC} Bye \n\n"; exit 1;
+	locale="ru_RU"
 esac
 printf "\n${bold}Downloading${normal}...\n" 
 
@@ -130,14 +131,13 @@ then
   plugins_array=(
     "contact-form-7" 
     "cyr3lat" 
-    "all-in-one-seo-pack" 
+#    "all-in-one-seo-pack" 
     "pods"
-    "google-sitemap-generator" 
-    "hypercomments" 
-    "shortcode-exec-php" 
+#    "google-sitemap-generator" 
+#    "hypercomments" 
     "w3-total-cache"
-    "siteorigin-panels"
-    "adminer"
+#    "siteorigin-panels"
+    "ari-adminer"
     "all-in-one-wp-security-and-firewall"
     "http://prosto-tak.ru/wphide.zip"
     );
