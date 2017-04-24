@@ -120,8 +120,13 @@ if [ -z "$login" ]; then
 fi
     
 
-printf "\nEnter admin pass: "
+DEFAULT_ADMIN_PASS=$(openssl rand -base64 8)
+printf "\nEnter admin pass ($DEFAULT_ADMIN_PASS): "
 read -e pass
+if [ -z "$pass" ]; then
+    pass=$DEFAULT_ADMIN_PASS
+fi
+printf "\npass set to $pass"
 
 printf "\nEnter admin email ($ADMIN_EMAIL): "
 read -e adm_email
